@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API's Gratuitas | APIsNodz</title>
+    <meta name="description" content="Dashboard completo com várias Api's gratuitas">
+    <meta name="keywords" content="API, dashboard, gerenciamento, desenvolvimento">
+    <meta name="author" content="APIsNodz">
+    
+    <meta property="og:title" content="API's Gratuitas | APIsNodz">
+    <meta property="og:description" content="Dashboard completo com várias Api's gratuitas">
+    <meta property="og:image" content="https://raw.githubusercontent.com/nazuninha/uploads/main/fotos/1774557738779_1e5qnr.jpg">
+    <meta property="og:url" content="https://apisnodz.com.br">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="API's Gratuitas | APIsNodz">
+    <meta name="twitter:description" content="Dashboard completo com várias Api's gratuitas">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/nazuninha/uploads/main/fotos/1774557738779_1e5qnr.jpg">
+    
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/nazuninha/uploads/main/fotos/1774557738779_1e5qnr.jpg">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/nazuninha/uploads/main/fotos/1774557738779_1e5qnr.jpg">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="mobile-toggle" id="mobileToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-text">
+                    <h2>APIsNodz</h2>
+                    <span>Rotas disponíveis para você!</span>
+                </div>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar rotas...">
+            </div>
+        </div>
+
+        <div class="categories-menu" id="categoriesMenu">
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="welcome-message">
+            <h1>APIsNodz</h1>
+            <p>Selecione uma rota no menu lateral para acessar diretamente a API</p>
+            <div class="api-url" id="currentApiUrl">
+                Aguardando seleção...
+            </div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid"></div>
+        
+        <div class="containers">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <div>
+                        <h3>Rotas por Categoria</h3>
+                        <p>Distribuição de endpoints por categoria</p>
+                    </div>
+                </div>
+                <canvas id="routesChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id="visitorCounter" style="display: none;">
+        <div align="center">
+            <a href='https://www.counter12.com'><img src='https://www.counter12.com/img-cC39z4Y4y96cwz17-55.gif' border='0' alt='contador de visitas gratis'></a>
+            <script type='text/javascript' src='https://www.counter12.com/ad.js?id=cC39z4Y4y96cwz17'></script>
+        </div>
+    </div>
+
+    <script src="rotas.js"></script>
+    <script src="functions.js"></script>
+</body>
+</html>

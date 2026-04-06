@@ -50,27 +50,27 @@ Antes de começar, você vai precisar ter instalado em sua máquina:
 ## 🔧 Instalação
 
 1. Clone o repositório (ou baixe os arquivos):
-\`\`\`bash
+```bash
 git clone https://github.com/seu-usuario/apisnodz.git
 cd apisnodz
-\`\`\`
+```
 
 2. Instale as dependências:
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 ## ⚙️ Configuração
 
 ### Configurações Essenciais no \`Server.js\`
 
 #### 1. Porta do Servidor
-\`\`\`javascript
+```javascript
 const PORT = 20026;  // Altere para a porta desejada
-\`\`\`
+```
 
 #### 2. Domínios Permitidos (CORS)
-\`\`\`javascript
+```javascript
 const allowedOrigins = [
   'http://localhost:20026',                    // Altere a porta
   'https://seudominio.com.br',                 // Seu domínio HTTPS
@@ -81,10 +81,10 @@ const allowedOrigins = [
 if (origin && origin.match(/^https?:\\/\\/.*seudominio\\./)) {
   return callback(null, true);
 }
-\`\`\`
+```
 
 #### 3. Limites de Requisição (Opcional)
-\`\`\`javascript
+```javascript
 // Ajuste conforme necessidade
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,  // 15 minutos
@@ -100,13 +100,13 @@ const aiLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,  // 10 minutos
   max: 20,                    // Máximo de requisições IA
 });
-\`\`\`
+```
 
 ### Estrutura de Pastas Necessária
 
 Certifique-se de que seu projeto tenha esta estrutura:
 
-\`\`\`
+```
 seu-projeto/
 ├── Server.js                 # Arquivo principal
 ├── Public/                   # Arquivos estáticos
@@ -125,19 +125,19 @@ seu-projeto/
 │   └── Logotipos.js
 ├── package.json
 └── node_modules/
-\`\`\`
+```
 
 ## 🚀 Executando o Projeto
 
 ### Modo Desenvolvimento
-\`\`\`bash
+```bash
 npm start
-\`\`\`
+```
 
 ### Modo Produção
-\`\`\`bash
+```bash
 NODE_ENV=production npm start
-\`\`\`
+```
 
 O servidor iniciará na porta configurada. Acesse:
 - **Site principal:** \`http://localhost:20026\`
@@ -174,7 +174,7 @@ O projeto implementa várias camadas de segurança:
 
 Crie um arquivo \`.env\` na raiz do projeto:
 
-\`\`\`env
+```env
 PORT=20026
 NODE_ENV=production
 CORS_ORIGINS=http://localhost:20026,https://seudominio.com.br
@@ -182,7 +182,7 @@ RATE_LIMIT_MAX=500
 DOWNLOAD_LIMIT_MAX=30
 AI_LIMIT_MAX=20
 MAX_PAYLOAD_SIZE=10kb
-\`\`\`
+```
 
 ## 🔍 Solução de Problemas
 
@@ -200,9 +200,9 @@ MAX_PAYLOAD_SIZE=10kb
 
 ### Servidor lento
 **Solução:** Ajuste os parâmetros de \`toobusy\` no início do arquivo:
-\`\`\`javascript
+```javascript
 toobusy.maxLag(200);  // Aumente para 500 se necessário
-\`\`\`
+```
 
 ## 📝 Dicas Adicionais
 
@@ -226,7 +226,6 @@ Este projeto é de uso livre para estudos e desenvolvimento. Ao utilizar, dê os
 
 Desenvolvido por **Crician**
 
----
 
 ## 🎯 Resumo Rápido - O que configurar:
 
@@ -239,13 +238,12 @@ Desenvolvido por **Crician**
 
 **Pronto! Com essas configurações seu servidor estará rodando perfeitamente.** 🚀
 
----
 
 ### Comandos Rápidos:
-\`\`\`bash
+```bash
 npm install    # Instalar dependências
 npm start      # Iniciar servidor
-\`\`\`
+```
 
 ### Acesse:
 - 🌐 Site: \`http://localhost:20026\`

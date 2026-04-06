@@ -152,7 +152,7 @@ Este projeto é de uso livre para estudos e desenvolvimento. Ao utilizar, dê os
 ## 👨‍💻 Autor
 
 Desenvolvido por **Crician**
-
+Instagram **crician.dev**
 
 ## 🎯 Resumo Rápido - O que configurar:
 
@@ -171,6 +171,13 @@ npm install    # Instalar dependências
 npm start      # Iniciar servidor
 ```
 
-### Acesse:
-- 🌐 Site: http://localhost:20026
-- 💚 Health: http://localhost:20026/health
+### Hospedagem NodzHostinger
+![NodzHostinger](https://raw.githubusercontent.com/nazuninha/uploads/main/fotos/1775508507742_ssk6k6.jpg)
+***Hospedagem barata é de confiança, temos serviços para sites, projetos e bots prontos!***
+
+- 🏷️ Cupom: NODZ-26
+- 🎁 Desconto: 20% OFF na compra de NodzCoins ✨
+- 🌱 Acesse: https://nodzhostinger.com.br
+
+### Pré-visualização:
+- 🌐 Site: https://apisnodz.com.br

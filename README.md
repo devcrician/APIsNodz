@@ -29,7 +29,7 @@ APIsNodz é uma API completa com diversas funcionalidades incluindo:
 
 Antes de começar, você vai precisar ter instalado em sua máquina:
 
-- [Node.js](https://nodejs.org/) (versão 14 ou superior)
+- [Node.js](https://nodejs.org/) (versão 20 ou superior)
 - [npm](https://www.npmjs.com/) (geralmente vem com o Node.js)
 - [Git](https://git-scm.com/) (opcional, para clonar o repositório)
 
@@ -151,8 +151,8 @@ Este projeto é de uso livre para estudos e desenvolvimento. Ao utilizar, dê os
 
 ## 👨‍💻 Autor
 
-Desenvolvido por **Crician**
-Instagram **crician.dev**
+- Desenvolvido por **Crician**
+- Instagram **crician.dev**
 
 ## 🎯 Resumo Rápido - O que configurar:
 
@@ -178,6 +178,3 @@ npm start      # Iniciar servidor
 - 🏷️ Cupom: NODZ-26
 - 🎁 Desconto: 20% OFF na compra de NodzCoins ✨
 - 🌱 Acesse: https://nodzhostinger.com.br
-
-### Pré-visualização:
-- 🌐 Site: https://apisnodz.com.br

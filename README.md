@@ -4,20 +4,6 @@
 
 > Um site gratuito desenvolvido por mim, Crician. Estou disponibilizando para quem quiser usar como base.
 
-## 📋 Índice
-- [Sobre o Projeto](#sobre-o-projeto)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Configuração](#configuração)
-- [Executando o Projeto](#executando-o-projeto)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Rotas da API](#rotas-da-api)
-- [Segurança](#segurança)
-- [Variáveis de Ambiente](#variáveis-de-ambiente)
-- [Solução de Problemas](#solução-de-problemas)
-- [Licença](#licença)
-
 ## 📖 Sobre o Projeto
 
 APIsNodz é uma API completa com diversas funcionalidades incluindo:
@@ -51,8 +37,8 @@ Antes de começar, você vai precisar ter instalado em sua máquina:
 
 1. Clone o repositório (ou baixe os arquivos):
 ```bash
-git clone https://github.com/seu-usuario/apisnodz.git
-cd apisnodz
+git clone https://github.com/devcrician/APIsNodz.git
+cd APIsNodz
 ```
 
 2. Instale as dependências:
@@ -62,7 +48,7 @@ npm install
 
 ## ⚙️ Configuração
 
-### Configurações Essenciais no \`Server.js\`
+### Configurações Essenciais no Server.js
 
 #### 1. Porta do Servidor
 ```javascript
@@ -102,31 +88,6 @@ const aiLimiter = rateLimit({
 });
 ```
 
-### Estrutura de Pastas Necessária
-
-Certifique-se de que seu projeto tenha esta estrutura:
-
-```
-seu-projeto/
-├── Server.js                 # Arquivo principal
-├── Public/                   # Arquivos estáticos
-│   ├── index.html           # Página principal
-│   ├── css/                 # Estilos
-│   ├── js/                  # Scripts cliente
-│   └── assets/              # Imagens, fontes, etc.
-├── Routers/                  # Rotas da API
-│   ├── Downloads.js
-│   ├── Pesquisas.js
-│   ├── Tools.js
-│   ├── Ias.js
-│   ├── Stalkers.js
-│   ├── Consultas.js
-│   ├── Canvas.js
-│   └── Logotipos.js
-├── package.json
-└── node_modules/
-```
-
 ## 🚀 Executando o Projeto
 
 ### Modo Desenvolvimento
@@ -140,22 +101,8 @@ NODE_ENV=production npm start
 ```
 
 O servidor iniciará na porta configurada. Acesse:
-- **Site principal:** \`http://localhost:20026\`
-- **Health check:** \`http://localhost:20026/health\`
-
-## 🗺️ Rotas da API
-
-| Rota | Descrição |
-|------|-----------|
-| \`/api/downloads\` | Endpoints para downloads |
-| \`/api/tools\` | Ferramentas diversas |
-| \`/api/ias\` | Processamento de IA |
-| \`/api/consultas\` | Consultas em geral |
-| \`/api/pesquisas\` | Pesquisas personalizadas |
-| \`/api/stalkers\` | Informações de redes sociais |
-| \`/api/canvas\` | Manipulação de imagens |
-| \`/api/logotipos\` | Geração de logotipos |
-| \`/health\` | Status do servidor |
+- **Site principal:** http://localhost:20026\
+- **Health check:** http://localhost:20026/health\
 
 ## 🔒 Segurança
 
@@ -170,36 +117,16 @@ O projeto implementa várias camadas de segurança:
 - ✅ **Compressão** - Otimização de tráfego
 - ✅ **Overload protection** - Proteção contra sobrecarga
 
-## 🌍 Variáveis de Ambiente
-
-Crie um arquivo \`.env\` na raiz do projeto:
-
-```env
-PORT=20026
-NODE_ENV=production
-CORS_ORIGINS=http://localhost:20026,https://seudominio.com.br
-RATE_LIMIT_MAX=500
-DOWNLOAD_LIMIT_MAX=30
-AI_LIMIT_MAX=20
-MAX_PAYLOAD_SIZE=10kb
-```
-
 ## 🔍 Solução de Problemas
 
-### Erro: \`Cannot find module './Routers/Downloads'\`
-**Solução:** Crie a pasta \`Routers\` e os arquivos de rota dentro dela.
-
-### Erro: \`ENOENT: no such file or directory, stat 'Public/index.html'\`
-**Solução:** Crie a pasta \`Public\` e coloque um arquivo \`index.html\` dentro.
-
-### Erro: \`Porta já em uso\`
-**Solução:** Altere a \`const PORT\` no \`Server.js\` para outra porta (ex: 3000, 8080).
+### Erro: Porta já em uso
+**Solução:** Altere a const PORT no Server.js para outra porta (ex: 3000, 8080).
 
 ### Erro de CORS
-**Solução:** Verifique se seu domínio está na lista \`allowedOrigins\` e no regex.
+**Solução:** Verifique se seu domínio está na lista allowedOrigins e no regex.
 
 ### Servidor lento
-**Solução:** Ajuste os parâmetros de \`toobusy\` no início do arquivo:
+**Solução:** Ajuste os parâmetros de toobusy no início do arquivo:
 ```javascript
 toobusy.maxLag(200);  // Aumente para 500 se necessário
 ```
@@ -231,10 +158,9 @@ Desenvolvido por **Crician**
 
 | Item | Onde | O que fazer |
 |------|------|-------------|
-| Porta | \`const PORT\` | Mudar número |
-| Domínio | \`allowedOrigins\` | Colocar seu domínio |
-| Regex | \`/.*apisnodz\\./\` | Trocar \`apisnodz\` pelo seu domínio |
-| Pastas | \`Public/\` e \`Routers/\` | Criar se não existirem |
+| Porta | const PORT | Mudar número |
+| Domínio | allowedOrigins | Colocar seu domínio |
+| Regex | /.*apisnodz\\./ | Trocar apisnodz pelo seu domínio |
 
 **Pronto! Com essas configurações seu servidor estará rodando perfeitamente.** 🚀
 
@@ -246,5 +172,5 @@ npm start      # Iniciar servidor
 ```
 
 ### Acesse:
-- 🌐 Site: \`http://localhost:20026\`
-- 💚 Health: \`http://localhost:20026/health\`
+- 🌐 Site: http://localhost:20026
+- 💚 Health: http://localhost:20026/health

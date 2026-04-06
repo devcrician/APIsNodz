@@ -4,7 +4,7 @@
 
 > É  um site gratuito desenvolvido por mim Crician, estou deixando disponível para quem quiser usar de base.
 
-## *COMANDOS DE INSTALAÇÃO*
+## 🌍 *COMANDOS PARA RODAR O SITE* 👾
 > Instalação dos Módulos
 
 ```bash 

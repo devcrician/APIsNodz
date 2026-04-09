@@ -127,4 +127,5 @@ Uso livre com créditos ao autor.
 ![NodzHostinger](https://raw.githubusercontent.com/nazuninha/uploads/main/fotos/1775508507742_ssk6k6.jpg)
 
 **Cupom: `NODZ-26`** | **20% OFF** | [nodzhostinger.com.br](https://nodzhostinger.com.br)
+
 **Nosso grupo de WhatsApp** [Entrar](https://chat.whatsapp.com/EnND4ZCkjVO7hEDwAxblzg)

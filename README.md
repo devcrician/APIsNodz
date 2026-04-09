@@ -1,5 +1,7 @@
-# APIsNodz 
+## 👽 Total  de Visitantes 
+![Visitas](https://count.getloli.com/@nodz?name=nodz&theme=gelbooru-h&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=auto)
 
+# APIsNodz 
 ![Banner](https://raw.githubusercontent.com/nazuninha/uploads/main/fotos/1775506114252_it1zmq.jpg)
 
 > API completa e gratuita desenvolvida por Crician. Use como base para seus projetos!

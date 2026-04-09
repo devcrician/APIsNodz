@@ -1,52 +1,49 @@
 const express = require('express');
 const router = express.Router();
-
 const { STK } = require('../Exportacoes.js');
 
-router.get('/instagram', async (req, res) => {
-  try {
-    const { user } = req.query;
-
-    if (!user) {
-      return res.status(400).json({ error: 'O parâmetro [ user ] é obrigatório' });
-    }
-
-    const result = await STK.IgStalk(user);
-    res.json({
-      success: true,
-      message: `Stalkers do Instagram processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Stalkers do Instagram falhado`,
-      detalhes: e.message
-    });
+const validateUser = (req, res, next) => {
+  const { user } = req.query;
+  if (!user || (typeof user === 'string' && user.trim().length === 0)) {
+    return res.status(400).json({ error: 'O parâmetro [user] é obrigatório' });
   }
-});
+  req.validUser = typeof user === 'string' ? user.trim() : String(user);
+  next();
+};
 
-router.get('/tiktok', async (req, res) => {
-  try {
-    const { user } = req.query;
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
 
-    if (!user) {
-      return res.status(400).json({ error: 'O parâmetro [ user ] é obrigatório' });
-    }
+const sendResponse = (res, message, result) => {
+  res.json({
+    success: true,
+    message,
+    resultado: result
+  });
+};
 
-    const result = await STK.TikTok(user);
-    res.json({
-      success: true,
-      message: `Stalkers do Tiktok processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Stalkers do TikTok falhado`,
-      detalhes: e.message
-    });
-  }
+const sendError = (res, message, error) => {
+  res.status(500).json({
+    error: true,
+    message,
+    detalhes: error?.message || error
+  });
+};
+
+router.get('/instagram', validateUser, asyncHandler(async (req, res) => {
+  const result = await STK.IgStalk(req.validUser);
+  sendResponse(res, 'Stalkers do Instagram processado', result);
+}));
+
+router.get('/tiktok', validateUser, asyncHandler(async (req, res) => {
+  const result = await STK.TikTok(req.validUser);
+  sendResponse(res, 'Stalkers do TikTok processado', result);
+}));
+
+router.use((err, req, res, next) => {
+  console.error(`[Stalkers] ${req.method} ${req.path} -`, err.message);
+  sendError(res, 'Erro interno no servidor', err.message);
 });
 
 module.exports = router;

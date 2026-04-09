@@ -7,4 +7,13 @@ const CNV = require('./Scrapers/Canvas.js');
 const IAS = require('./Scrapers/Ias.js');
 const LGS = require('./Scrapers/Logotipos.js');
 
-module.exports = { DL, SRC, TLS, STK, CST, CNV, IAS, LGS };
+module.exports = {
+  DL,
+  SRC,
+  TLS,
+  STK,
+  CST,
+  CNV,
+  IAS,
+  LGS
+};

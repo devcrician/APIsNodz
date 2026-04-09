@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 type: 'text'
             },
             {
-                title: '27/03/26',
+                title: '07/04/26',
                 subtitle: 'Última Atualização',
                 icon: 'fas fa-calendar-alt',
                 color: '#FF1493',

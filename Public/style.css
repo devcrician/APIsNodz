@@ -611,6 +611,7 @@ canvas {
     }
 } 
 
+/* Estilo para o card do contador */
 .counter-card {
     display: flex;
     align-items: center;
@@ -637,12 +638,14 @@ canvas {
     filter: brightness(1.2);
 }
 
+/* Aumentar o tamanho do número do contador */
 .counter-container img {
     width: auto;
     height: 45px;
     min-width: 140px;
 }
 
+/* Ajuste para o texto do card do contador */
 .counter-card .stat-info {
     display: flex;
     flex-direction: column;
@@ -656,6 +659,7 @@ canvas {
     margin: 0;
 }
 
+/* Responsividade para o contador */
 @media (max-width: 768px) {
     .counter-container img {
         height: 35px;
@@ -675,6 +679,7 @@ canvas {
     }
 }
 
+/* Para telas maiores */
 @media (min-width: 1200px) {
     .counter-container img {
         height: 55px;

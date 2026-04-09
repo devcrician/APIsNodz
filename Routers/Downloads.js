@@ -1,284 +1,102 @@
 const express = require('express');
 const router = express.Router();
-
 const { DL } = require('../Exportacoes.js');
 
-router.get('/youtube/audio', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-   
-    const result = await DL.YtAudio(url);
-    res.json({
-      success: true,
-      message: `Download audio do YouTube processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download audio do YouTube falhado`,
-      detalhes: e.message
-    });
+const validateUrl = (req, res, next) => {
+  const { url } = req.query;
+  if (!url) {
+    return res.status(400).json({ error: 'O parâmetro [url] é obrigatório' });
   }
-});
-
-router.get('/youtube/video', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-   
-    const result = await DL.YtVideo(url);
-    res.json({
-      success: true,
-      message: `Download video do YouTube processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download video do YouTube falhado`,
-      detalhes: e.message
-    });
+  if (typeof url !== 'string' || url.trim().length === 0) {
+    return res.status(400).json({ error: 'URL inválida' });
   }
+  req.validUrl = url.trim();
+  next();
+};
+
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+const sendResponse = (res, message, result) => {
+  res.json({
+    success: true,
+    message,
+    resultado: result
+  });
+};
+
+const sendError = (res, message, error) => {
+  res.status(500).json({
+    error: true,
+    message,
+    detalhes: error?.message || error
+  });
+};
+
+router.get('/youtube/audio', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.YtAudio(req.validUrl);
+  sendResponse(res, 'Download audio do YouTube processado', result);
+}));
+
+router.get('/youtube/video', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.YtVideo(req.validUrl);
+  sendResponse(res, 'Download video do YouTube processado', result);
+}));
+
+router.get('/instagram', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.InstaDl(req.validUrl);
+  sendResponse(res, 'Download do Instagram processado', result);
+}));
+
+router.get('/tiktok', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.TikTok(req.validUrl);
+  sendResponse(res, 'Download do TikTok processado', result);
+}));
+
+router.get('/pinterest', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.pinterestDl(req.validUrl);
+  sendResponse(res, 'Download do Pinterest processado', result);
+}));
+
+router.get('/facebook', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.FaceBook(req.validUrl);
+  sendResponse(res, 'Download do Facebook processado', result);
+}));
+
+router.get('/kwai', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.Kwai(req.validUrl);
+  sendResponse(res, 'Download do Kwai processado', result);
+}));
+
+router.get('/twitter', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.twitterDl(req.validUrl);
+  sendResponse(res, 'Download do Twitter processado', result);
+}));
+
+router.get('/gdrive', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.Gdrive(req.validUrl);
+  sendResponse(res, 'Download do Google Drive processado', result);
+}));
+
+router.get('/capcut', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.CapCut(req.validUrl);
+  sendResponse(res, 'Download do CapCut processado', result);
+}));
+
+router.get('/fdroid', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.Fdroid(req.validUrl);
+  sendResponse(res, 'Download do F-Droid processado', result);
+}));
+
+router.get('/threads', validateUrl, asyncHandler(async (req, res) => {
+  const result = await DL.Threads(req.validUrl);
+  sendResponse(res, 'Download do Threads processado', result);
+}));
+
+router.use((err, req, res, next) => {
+  console.error(`[${req.method}] ${req.path} -`, err.message);
+  sendError(res, 'Erro interno no servidor', err.message);
 });
-
-router.get('/instagram', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-
-    const result = await DL.InstaDl(url);
-    res.json({
-      success: true,
-      message: `Download do Instagram processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download do Instagram falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/tiktok', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-
-    const result = await DL.TikTok(url);
-    res.json({
-      success: true,
-      message: `Download do TikTok processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download do TikTok falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/pinterest', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-
-    const result = await DL.pinterestDl(url);
-    res.json({
-      success: true,
-      message: `Download do Pinterest processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download do Pinterest falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/facebook', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-
-    const result = await DL.FaceBook(url);
-    res.json({
-      success: true,
-      message: `Download do FaceBook processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download do FaceBook falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/kwai', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-
-    const result = await DL.Kwai(url);
-    res.json({
-      success: true,
-      message: `Download do Kwai processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download do Kwai falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/twitter', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-
-    const result = await DL.twitterDl(url);
-    res.json({
-      success: true,
-      message: `Download do Twitter processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download do Twitter falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/gdrive', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-
-    const result = await DL.Gdrive(url);
-    res.json({
-      success: true,
-      message: `Download do Gdrive processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download do Gdrive falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/capcut', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-
-    const result = await DL.CapCut(url);
-    res.json({
-      success: true,
-      message: `Download do CapCut processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download do CapCut falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/fdroid', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-
-    const result = await DL.Fdroid(url);
-    res.json({
-      success: true,
-      message: `Download do Fdroid processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download do Fdroid falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/threads', async (req, res) => {
-  try {
-    const { url } = req.query;
-
-    if (!url) {
-      return res.status(400).json({ error: 'O parâmetro [ url ] é obrigatório' });
-    }
-
-    const result = await DL.Threads(url);
-    res.json({
-      success: true,
-      message: `Download do Threads processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Download do Threads falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-
 
 module.exports = router;

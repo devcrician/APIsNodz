@@ -1,144 +1,77 @@
 const express = require('express');
 const router = express.Router();
-
 const { IAS } = require('../Exportacoes.js');
 
-router.get('/copilot', async (req, res) => {
-  try {
-    const { prompt } = req.query;
-
-    if (!prompt) {
-      return res.status(400).json({ error: 'O parâmetro [ prompt ] é obrigatório' });
-    }
-
-    const result = await IAS.Copilot(prompt);
-    res.json({
-      success: true,
-      message: `AI do Copilot processada`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `AI do Copilot falhada`,
-      detalhes: e.message
-    });
+const validatePrompt = (req, res, next) => {
+  const { prompt } = req.query;
+  if (!prompt || (typeof prompt === 'string' && prompt.trim().length === 0)) {
+    return res.status(400).json({ error: 'O parâmetro [prompt] é obrigatório' });
   }
-});
+  req.validPrompt = typeof prompt === 'string' ? prompt.trim() : String(prompt);
+  next();
+};
 
-router.get('/qwen3-235b-a22b', async (req, res) => {
-  try {
-    const { prompt } = req.query;
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
 
-    if (!prompt) {
-      return res.status(400).json({ error: 'O parâmetro [ prompt ] é obrigatório' });
-    }
+const sendResponse = (res, message, result) => {
+  res.json({
+    success: true,
+    message,
+    resultado: result
+  });
+};
 
-    const result = await IAS.Nvidia('qwen/qwen3-235b-a22b', prompt);
-    res.json({
-      success: true,
-      message: `AI do qwen3-235b-a22b processada`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `AI do qwen3-235b-a22b falhada`,
-      detalhes: e.message
-    });
-  }
-});
+const sendError = (res, message, error) => {
+  res.status(500).json({
+    error: true,
+    message,
+    detalhes: error?.message || error
+  });
+};
 
-router.get('/gemma-7b', async (req, res) => {
-  try {
-    const { prompt } = req.query;
+const modelos = {
+  'qwen3-235b-a22b': 'qwen/qwen3-235b-a22b',
+  'gemma-7b': 'google/gemma-7b',
+  'kimi-k2-instruct': 'moonshotai/kimi-k2-instruct',
+  'dracarys-llama-3': 'abacusai/dracarys-llama-3.1-70b-instruct',
+  'phi-3-medium': 'microsoft/phi-3-medium-4k-instruct'
+};
 
-    if (!prompt) {
-      return res.status(400).json({ error: 'O parâmetro [ prompt ] é obrigatório' });
-    }
+router.get('/copilot', validatePrompt, asyncHandler(async (req, res) => {
+  const result = await IAS.Copilot(req.validPrompt);
+  sendResponse(res, 'AI do Copilot processada', result);
+}));
 
-    const result = await IAS.Nvidia('google/gemma-7b', prompt);
-    res.json({
-      success: true,
-      message: `AI do gemma-7b processada`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `AI do gemma-7b falhada`,
-      detalhes: e.message
-    });
-  }
-});
+router.get('/qwen3-235b-a22b', validatePrompt, asyncHandler(async (req, res) => {
+  const result = await IAS.Nvidia(modelos['qwen3-235b-a22b'], req.validPrompt);
+  sendResponse(res, 'AI do qwen3-235b-a22b processada', result);
+}));
 
-router.get('/kimi-k2-instruct', async (req, res) => {
-  try {
-    const { prompt } = req.query;
+router.get('/gemma-7b', validatePrompt, asyncHandler(async (req, res) => {
+  const result = await IAS.Nvidia(modelos['gemma-7b'], req.validPrompt);
+  sendResponse(res, 'AI do gemma-7b processada', result);
+}));
 
-    if (!prompt) {
-      return res.status(400).json({ error: 'O parâmetro [ prompt ] é obrigatório' });
-    }
+router.get('/kimi-k2-instruct', validatePrompt, asyncHandler(async (req, res) => {
+  const result = await IAS.Nvidia(modelos['kimi-k2-instruct'], req.validPrompt);
+  sendResponse(res, 'AI do kimi-k2-instruct processada', result);
+}));
 
-    const result = await IAS.Nvidia('moonshotai/kimi-k2-instruct', prompt);
-    res.json({
-      success: true,
-      message: `AI do kimi-k2-instruct processada`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `AI do kimi-k2-instruct falhada`,
-      detalhes: e.message
-    });
-  }
-});
+router.get('/dracarys-llama-3', validatePrompt, asyncHandler(async (req, res) => {
+  const result = await IAS.Nvidia(modelos['dracarys-llama-3'], req.validPrompt);
+  sendResponse(res, 'AI do dracarys-llama-3 processada', result);
+}));
 
-router.get('/dracarys-llama-3', async (req, res) => {
-  try {
-    const { prompt } = req.query;
+router.get('/phi-3-medium', validatePrompt, asyncHandler(async (req, res) => {
+  const result = await IAS.Nvidia(modelos['phi-3-medium'], req.validPrompt);
+  sendResponse(res, 'AI do phi-3-medium-4k-instruct processada', result);
+}));
 
-    if (!prompt) {
-      return res.status(400).json({ error: 'O parâmetro [ prompt ] é obrigatório' });
-    }
-
-    const result = await IAS.Nvidia('abacusai/dracarys-llama-3.1-70b-instruct', prompt);
-    res.json({
-      success: true,
-      message: `AI do dracarys-llama-3 processada`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `AI do dracarys-llama-3 falhada`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/phi-3-medium-4k-instruct', async (req, res) => {
-  try {
-    const { prompt } = req.query;
-
-    if (!prompt) {
-      return res.status(400).json({ error: 'O parâmetro [ prompt ] é obrigatório' });
-    }
-
-    const result = await IAS.Nvidia('microsoft/phi-3-medium-4k-instruct', prompt);
-    res.json({
-      success: true,
-      message: `AI do phi-3-medium-4k-instruct processada`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `AI do phi-3-medium-4k-instruct falhada`,
-      detalhes: e.message
-    });
-  }
+router.use((err, req, res, next) => {
+  console.error(`[IAs] ${req.method} ${req.path} -`, err.message);
+  sendError(res, 'Erro interno no servidor', err.message);
 });
 
 module.exports = router;

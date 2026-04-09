@@ -1,161 +1,74 @@
 const express = require('express');
 const router = express.Router();
-
 const { TLS } = require('../Exportacoes.js');
 
-router.get('/lyrics', async (req, res) => {
-  try {
-    const { query } = req.query;
-
-    if (!query) {
-      return res.status(400).json({ error: 'O parâmetro [ query ] é obrigatório' });
-    }
-
-    const result = await TLS.Lyrics(query);
-    res.json({
-      success: true,
-      message: `Tools do Lyrics processada`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Tools do Lyrics falhada`,
-      detalhes: e.message
-    });
+const validateQuery = (req, res, next) => {
+  const { query } = req.query;
+  if (!query || (typeof query === 'string' && query.trim().length === 0)) {
+    return res.status(400).json({ error: 'O parâmetro [query] é obrigatório' });
   }
-});
+  req.validQuery = typeof query === 'string' ? query.trim() : String(query);
+  next();
+};
 
-router.get('/gerarnick', async (req, res) => {
-  try {
-    const { query } = req.query;
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
 
-    if (!query) {
-      return res.status(400).json({ error: 'O parâmetro [ query ] é obrigatório' });
-    }
+const sendResponse = (res, message, result) => {
+  res.json({
+    success: true,
+    message,
+    resultado: result
+  });
+};
 
-    const result = await TLS.GerarNick(query);
-    res.json({
-      success: true,
-      message: `Tools do Gerar Nick processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Tools do Gerar Nick falhado`,
-      detalhes: e.message
-    });
-  }
-});
+const sendError = (res, message, error) => {
+  res.status(500).json({
+    error: true,
+    message,
+    detalhes: error?.message || error
+  });
+};
 
-router.get('/codificar', async (req, res) => {
-  try {
-    const { query } = req.query;
+router.get('/lyrics', validateQuery, asyncHandler(async (req, res) => {
+  const result = await TLS.Lyrics(req.validQuery);
+  sendResponse(res, 'Tools do Lyrics processada', result);
+}));
 
-    if (!query) {
-      return res.status(400).json({ error: 'O parâmetro [ query ] é obrigatório' });
-    }
+router.get('/gerarnick', validateQuery, asyncHandler(async (req, res) => {
+  const result = await TLS.GerarNick(req.validQuery);
+  sendResponse(res, 'Tools do Gerar Nick processado', result);
+}));
 
-    const result = await TLS.Codificar(query);
-    res.json({
-      success: true,
-      message: `Tools do Codificar processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Tools do Codificar falhado`,
-      detalhes: e.message
-    });
-  }
-});
+router.get('/codificar', validateQuery, asyncHandler(async (req, res) => {
+  const result = await TLS.Codificar(req.validQuery);
+  sendResponse(res, 'Tools do Codificar processado', result);
+}));
 
-router.get('/decodificar', async (req, res) => {
-  try {
-    const { query } = req.query;
+router.get('/decodificar', validateQuery, asyncHandler(async (req, res) => {
+  const result = await TLS.Decodificar(req.validQuery);
+  sendResponse(res, 'Tools do Decodificar processado', result);
+}));
 
-    if (!query) {
-      return res.status(400).json({ error: 'O parâmetro [ query ] é obrigatório' });
-    }
+router.get('/morse', validateQuery, asyncHandler(async (req, res) => {
+  const result = await TLS.Morse(req.validQuery);
+  sendResponse(res, 'Tools do Morse processado', result);
+}));
 
-    const result = await TLS.Decodificar(query);
-    res.json({
-      success: true,
-      message: `Tools do Decodificar processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Tools do Decodificar falhado`,
-      detalhes: e.message
-    });
-  }
-});
+router.get('/pensador', validateQuery, asyncHandler(async (req, res) => {
+  const result = await TLS.Pensador(req.validQuery);
+  sendResponse(res, 'Tools do Pensador processado', result);
+}));
 
-router.get('/morse', async (req, res) => {
-  try {
-    const { query } = req.query;
+router.get('/historias', asyncHandler(async (req, res) => {
+  const result = await TLS.Historias();
+  sendResponse(res, 'Tools de Histórias processada', result);
+}));
 
-    if (!query) {
-      return res.status(400).json({ error: 'O parâmetro [ query ] é obrigatório' });
-    }
-
-    const result = await TLS.Morse(query);
-    res.json({
-      success: true,
-      message: `Tools do Morse processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Tools do Morse falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/pensador', async (req, res) => {
-  try {
-    const { query } = req.query;
-
-    if (!query) {
-      return res.status(400).json({ error: 'O parâmetro [ query ] é obrigatório' });
-    }
-
-    const result = await TLS.Pensador(query);
-    res.json({
-      success: true,
-      message: `Tools do Pensador processado`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Tools do Pensador falhado`,
-      detalhes: e.message
-    });
-  }
-});
-
-router.get('/historias', async (req, res) => {
-  try {
-    const result = await TLS.Historias();
-    res.json({
-      success: true,
-      message: `Tools de Histórias processada`,
-      resultado: result
-    });
-  } catch (e) {
-    res.status(500).json({
-      error: true,
-      message: `Tools de Histórias falhada`,
-      detalhes: e.message
-    });
-  }
+router.use((err, req, res, next) => {
+  console.error(`[Tools] ${req.method} ${req.path} -`, err.message);
+  sendError(res, 'Erro interno no servidor', err.message);
 });
 
 module.exports = router;

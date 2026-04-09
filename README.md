@@ -2,179 +2,125 @@
 
 ![Banner](https://raw.githubusercontent.com/nazuninha/uploads/main/fotos/1775506114252_it1zmq.jpg)
 
-> Um site gratuito desenvolvido por mim, Crician. Estou disponibilizando para quem quiser usar como base.
+> API completa e gratuita desenvolvida por Crician. Use como base para seus projetos!
 
-## 📖 Sobre o Projeto
+## 📖 Funcionalidades
 
-APIsNodz é uma API completa com diversas funcionalidades incluindo:
-- Downloads de conteúdo
-- Ferramentas diversas
-- Processamento de IA
-- Consultas e pesquisas
-- Stalkers (redes sociais)
-- Manipulação de canvas
-- Geração de logotipos
+- 📥 Downloads de conteúdo
+- 🔧 Ferramentas diversas  
+- 🤖 APIs de IA
+- 🔍 Pesquisas e consultas
+- 👁️ Stalkers (redes sociais)
+- 🖌️ Manipulação Canvas
+- 🎨 Geração de logotipos
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Stack Atual
 
-- **Node.js** - Ambiente de execução
-- **Express.js** - Framework web
-- **Helmet** - Segurança HTTP
-- **CORS** - Compartilhamento de recursos
-- **Rate Limit** - Controle de requisições
-- **Compression** - Compressão de respostas
-- **toobusy-js** - Controle de sobrecarga do servidor
+```
+Node.js + Express.js
+├── helmet (segurança básica)
+├── cors (origin: '*')
+├── rate-limit (2000 req/min)
+├── compression (gzip)
+├── express.static (cache otimizado)
+└── Auto-descoberta de rotas (/api/routes)
+```
 
-## 📦 Pré-requisitos
+## 🚀 Instalação Rápida
 
-Antes de começar, você vai precisar ter instalado em sua máquina:
-
-- [Node.js](https://nodejs.org/) (versão 20 ou superior)
-- [npm](https://www.npmjs.com/) (geralmente vem com o Node.js)
-- [Git](https://git-scm.com/) (opcional, para clonar o repositório)
-
-## 🔧 Instalação
-
-1. Clone o repositório (ou baixe os arquivos):
 ```bash
 git clone https://github.com/devcrician/APIsNodz.git
 cd APIsNodz
-```
-
-2. Instale as dependências:
-```bash
 npm install
-```
-
-## ⚙️ Configuração
-
-### Configurações Essenciais no Server.js
-
-#### 1. Porta do Servidor
-```javascript
-const PORT = 20026;  // Altere para a porta desejada
-```
-
-#### 2. Domínios Permitidos (CORS)
-```javascript
-const allowedOrigins = [
-  'http://localhost:20026',                    // Altere a porta
-  'https://seudominio.com.br',                 // Seu domínio HTTPS
-  'http://seudominio.com.br',                  // Seu domínio HTTP
-];
-
-// Altere o regex para seu domínio
-if (origin && origin.match(/^https?:\\/\\/.*seudominio\\./)) {
-  return callback(null, true);
-}
-```
-
-#### 3. Limites de Requisição (Opcional)
-```javascript
-// Ajuste conforme necessidade
-const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,  // 15 minutos
-  max: 500,                   // Máximo de requisições
-});
-
-const downloadsLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000,  // 10 minutos
-  max: 30,                    // Máximo de downloads
-});
-
-const aiLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000,  // 10 minutos
-  max: 20,                    // Máximo de requisições IA
-});
-```
-
-## 🚀 Executando o Projeto
-
-### Modo Desenvolvimento
-```bash
 npm start
 ```
 
-### Modo Produção
-```bash
-NODE_ENV=production npm start
+**Servidor roda em: `http://localhost:20026`**
+
+## ⚙️ Configurações (Server.js)
+
+### 1. **Porta**
+```js
+const PORT = 20026;  // Mude aqui
 ```
 
-O servidor iniciará na porta configurada. Acesse:
-- **Site principal:** http://localhost:20026\
-- **Health check:** http://localhost:20026/health\
+### 2. **Rate Limit Global** (já incluso)
+```js
+windowMs: 60 * 1000,  // 1 minuto
+max: 2000             // 2000 requisições
+```
 
-## 🔒 Segurança
+### 3. **CORS** (já aberto para todos)
+```js
+app.use(cors({ origin: '*' }));  // Sem restrições
+```
 
-O projeto implementa várias camadas de segurança:
+## 🌐 Endpoints Disponíveis
 
-- ✅ **Helmet.js** - Headers HTTP seguros
-- ✅ **CORS configurado** - Controle de origens
-- ✅ **Rate Limiting** - Limite de requisições
-- ✅ **XSS Protection** - Sanitização contra XSS
-- ✅ **Mongo Sanitize** - Prevenção de injection
-- ✅ **Validação de User-Agent** - Bloqueio de bots maliciosos
-- ✅ **Compressão** - Otimização de tráfego
-- ✅ **Overload protection** - Proteção contra sobrecarga
+Acesse `http://localhost:20026/api/routes` para ver todas as rotas automaticamente!
+
+**Exemplos:**
+```
+✅ /api/downloads/*
+✅ /api/tools/*
+✅ /api/ias/*
+✅ /api/pesquisas/*
+✅ /api/stalkers/*
+✅ /api/consultas/*
+✅ /api/canvas/*
+✅ /api/logotipos/*
+```
+
+## 🔒 Segurança Implementada
+
+- ✅ **Helmet** (headers básicos)
+- ✅ **Rate Limiting** (2000 req/min global)
+- ✅ **CORS aberto** (origin: '*')
+- ✅ **Compressão GZIP**
+- ✅ **Cache estático** (JS/CSS: 24h, imagens: 24h)
+- ✅ **Logs coloridos** (performance + requests)
+- ✅ **Error handling** global
+- ✅ **Timeouts** otimizados
+
+## 🧪 Testes Rápidos
+
+```bash
+# Health check
+curl http://localhost:20026/health
+
+# Lista de rotas
+curl http://localhost:20026/api/routes
+
+# Site principal
+curl http://localhost:20026
+```
 
 ## 🔍 Solução de Problemas
 
-### Erro: Porta já em uso
-**Solução:** Altere a const PORT no Server.js para outra porta (ex: 3000, 8080).
+| Problema | Solução |
+|----------|---------|
+| **Porta ocupada** | `const PORT = 3000;` no Server.js |
+| **Rate limit** | Aguarde 1min ou aumente `max: 2000` |
+| **CORS error** | Já está `*` (sem restrições) |
+| **npm install falha** | `rm -rf node_modules && npm install` |
 
-### Erro de CORS
-**Solução:** Verifique se seu domínio está na lista allowedOrigins e no regex.
+## 🎯 Resumo - 3 passos
 
-### Servidor lento
-**Solução:** Ajuste os parâmetros de toobusy no início do arquivo:
-```javascript
-toobusy.maxLag(200);  // Aumente para 500 se necessário
+```bash
+npm install    # 1️⃣ Dependências
+npm start      # 2️⃣ Rodar (porta 20026)
+# 3️⃣ Acessar: http://localhost:20026
 ```
-
-## 📝 Dicas Adicionais
-
-### Monitoramento
-O servidor já possui logs para:
-- Requisições lentas (> 1 segundo)
-- Headers suspeitos
-- Muitos parâmetros na requisição
-- Tentativas de acesso de origens não permitidas
-
-### Performance
-- Compressão ativada para respostas > 100KB
-- Cache configurado para arquivos estáticos
-- Timeouts ajustados para evitar conexões pendentes
 
 ## 📄 Licença
-
-Este projeto é de uso livre para estudos e desenvolvimento. Ao utilizar, dê os devidos créditos.
+Uso livre com créditos ao autor.
 
 ## 👨‍💻 Autor
+**Crician** - [Instagram](https://instagram.com/crician.dev)
 
-- Desenvolvido por **Crician**
-- Instagram **crician.dev**
-
-## 🎯 Resumo Rápido - O que configurar:
-
-| Item | Onde | O que fazer |
-|------|------|-------------|
-| Porta | const PORT | Mudar número |
-| Domínio | allowedOrigins | Colocar seu domínio |
-| Regex | /.*apisnodz\\./ | Trocar apisnodz pelo seu domínio |
-
-**Pronto! Com essas configurações seu servidor estará rodando perfeitamente.** 🚀
-
-
-### Comandos Rápidos:
-```bash
-npm install    # Instalar dependências
-npm start      # Iniciar servidor
-```
+---
 
 ### Hospedagem NodzHostinger
 ![NodzHostinger](https://raw.githubusercontent.com/nazuninha/uploads/main/fotos/1775508507742_ssk6k6.jpg)
-***Hospedagem barata é de confiança, temos serviços para sites, projetos e bots prontos!***
 
-- 🏷️ Cupom: NODZ-26
-- 🎁 Desconto: 20% OFF na compra de NodzCoins ✨
-- 🌱 Acesse: https://nodzhostinger.com.br
+**Cupom: `NODZ-26`** | **20% OFF** | [nodzhostinger.com.br](https://nodzhostinger.com.br)
